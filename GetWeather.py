@@ -1,7 +1,7 @@
 import urllib.request
 import json 
 import argparse
-import datetime
+from datetime import datetime
 #zimport requests
 
 
@@ -11,8 +11,8 @@ class WeatherFetcher:
 
     def GetWeather(self):
         if self.live:
-            now = datetime.datetime.now()
-            self.GetWeatherLive(now.strftime("%Y-%m-%d"), now.strftime("%H:00:00"))
+            now = datetime.now()
+            self.GetWeatherLive(now.strftime("%Y-%m-%d"), now.strftime("%H:%M:%S"))
         else:
             self.GetWeatherDebug()
 
@@ -47,9 +47,9 @@ class WeatherFetcher:
                 #print(hourPrognosis)
                 #print(json.dumps(hourPrognosis, indent=4, sort_keys=True))
                 #quit()
-                if date+"T"+time in hourPrognosis["validTime"]:
+                if date+"T"+time[:2]+":00:00" in hourPrognosis["validTime"]:
                     #print(hourPrognosis)
-                    print(json.dumps(hourPrognosis, indent=4, sort_keys=True))
+                    #print(json.dumps(hourPrognosis, indent=4, sort_keys=True))
 
                     # Search through parameters for correct values
                     for parameter in hourPrognosis["parameters"]:
@@ -60,7 +60,7 @@ class WeatherFetcher:
             self.temperature = temperature
 
     def GetTemperature(self):
-        return self.temperature+2.ToString()
+        return self.temperature
 
 def main():
     parser = argparse.ArgumentParser()
