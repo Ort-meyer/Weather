@@ -1,7 +1,7 @@
 import urllib.request
 import json 
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 #zimport requests
 
 
@@ -9,10 +9,11 @@ class WeatherFetcher:
     def __init__(self, live):
         self.live = live
 
-    def GetWeather(self):
+    def GetWeather(self, timeInFuture=5):
         if self.live:
             now = datetime.now()
-            self.GetWeatherLive(now.strftime("%Y-%m-%d"), now.strftime("%H:%M:%S"))
+            targetTime = now+timedelta(hours=timeInFuture)
+            self.GetWeatherLive(targetTime.strftime("%Y-%m-%d"), targetTime.strftime("%H:%M:%S"))
         else:
             self.GetWeatherDebug()
 
@@ -20,7 +21,7 @@ class WeatherFetcher:
         self.temperature = "20"
     def GetWeatherLive(self, date, time):
         """Gets the temperatur of current position at given time and date
-        Date should be in format HH:00:00, date in YY-MM-DD. Only works
+        Date should be in format HH:MM:SS, date in YY-MM-DD. Only works
         for current date"""
         # Get my position
         send_url = 'http://freegeoip.net/json'
