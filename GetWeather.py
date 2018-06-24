@@ -13,6 +13,8 @@ class WeatherFetcher:
         if self.live:
             now = datetime.now()
             targetTime = now+timedelta(hours=timeInFuture)
+            #print(now)
+            #print(targetTime)
             self.GetWeatherLive(targetTime.strftime("%Y-%m-%d"), targetTime.strftime("%H:%M:%S"))
         else:
             self.GetWeatherDebug()
@@ -68,10 +70,11 @@ def main():
     #parser.add_argument("echo", help="echo the string you use here")
     #parser.add_argument("square", help="display a square of a given number", type=int)
     #parser.add_argument("-v", "--verbose", help="displays verbose debug info", action="store_true")
-    parser.add_argument("-l", "--live", help="runs live/online", action="store_true")
+    #parser.add_argument("-l", "--live", help="runs live/online", action="store_true")
+    parser.add_argument("-l", "--live", help="runs live/online", type=int)
     args = parser.parse_args()
     wf = WeatherFetcher(args.live)
-    wf.GetWeather()
+    wf.GetWeather(args.live)
     print(wf.GetTemperature())
     #print(args.echo)
     #print(args.square**2)
